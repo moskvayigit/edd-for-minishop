@@ -553,11 +553,15 @@ function edd_downloads_query( $atts, $content = null ) {
 		$i = 1;
 		$wrapper_class = 'edd_download_columns_' . $atts['columns'];
 		ob_start(); ?>
-		<div class="edd_downloads_list <?php echo apply_filters( 'edd_downloads_list_wrapper_class', $wrapper_class, $atts ); ?>">
+
+		<div class="grid">
 			<?php while ( $downloads->have_posts() ) : $downloads->the_post(); ?>
-				<?php $schema = edd_add_schema_microdata() ? 'itemscope itemtype="http://schema.org/Product" ' : ''; ?>
-				<div <?php echo $schema; ?>class="<?php echo apply_filters( 'edd_download_class', 'edd_download', get_the_ID(), $atts, $i ); ?>" id="edd_download_<?php echo get_the_ID(); ?>">
-					<div class="edd_download_inner">
+			
+					<div class="col-md-3">
+					<?php $schema = edd_add_schema_microdata() ? 'itemscope itemtype="http://schema.org/Product" ' : ''; ?>
+
+
+					<figure class="effect-ki-first">
 						<?php
 
 						do_action( 'edd_download_before' );
@@ -578,19 +582,32 @@ function edd_downloads_query( $atts, $content = null ) {
 							do_action( 'edd_download_after_content' );
 						}
 
+						/*
 						if ( $atts['price'] == 'yes' ) {
 							edd_get_template_part( 'shortcode', 'content-price' );
 							do_action( 'edd_download_after_price' );
 						}
 
-						if ( $atts['buy_button'] == 'yes' )
+						*/
+						
+						?>
+						</figure>
+						<div class="figure">
+							<p class="text-left"><?php the_title(); ?></p>
+							<?php
+							if ( $atts['buy_button'] == 'yes' )
 							edd_get_template_part( 'shortcode', 'content-cart-button' );
 
-						do_action( 'edd_download_after' );
 
-						?>
+
+
+							do_action( 'edd_download_after' );
+						 ?>
+						</div>	
 					</div>
-				</div>
+
+				
+				
 				<?php if ( $atts['columns'] != 0 && $i % $atts['columns'] == 0 ) { ?><div style="clear:both;"></div><?php } ?>
 			<?php $i++; endwhile; ?>
 
